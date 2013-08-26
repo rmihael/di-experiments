@@ -11,8 +11,8 @@ trait Context {
 }
 
 object Context {
-  val catsService: Configured[CatsService] = Configured {_.catsService}
-  val dogsService: Configured[DogsService] = Configured {_.dogsService}
-  val catsRepo: Configured[CatsRepository] = Configured {_.catsRepo}
-  val dogsRepo: Configured[DogsRepository] = Configured {_.dogsRepo}
+  val catsService: Configured[Context, CatsService] = Configured {_.catsService}
+  val dogsService: Configured[Context, DogsService] = Configured {_.dogsService}
+  val catsRepo: Configured[Context, CatsRepository] = Configured {_.catsRepo}
+  val dogsRepo: Configured[Context, DogsRepository] = Configured {_.dogsRepo}
 }

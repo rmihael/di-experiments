@@ -3,9 +3,9 @@ package com.experiments
 import scalaz._
 
 package object di {
-  type Configured[+A] = Reader[Context, A]
+  type Configured[-E, +A] = Reader[E, A]
 
   object Configured {
-    def apply[A](f: Context => A) = Reader(f)
+    def apply[E, A](f: E => A) = Reader(f)
   }
 }
