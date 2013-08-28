@@ -3,9 +3,9 @@ package com.experiments
 import scalaz._
 
 package object di {
-  type Configured[-E, +A] = Reader[E, A]
+  trait DI[Context, TransitiveContext] {
+    type Configured[B] = Reader[Context with TransitiveContext, B]
 
-  object Configured {
-    def apply[E, A](f: E => A) = Reader(f)
+    def context: Reader[Context, Context] = Reader(identity)
   }
 }

@@ -1,21 +1,20 @@
 package com.experiments.di.cats
 
 import com.experiments.di._
+import com.experiments.di.Context
 
-class CatsService {
-  def getByName(name: String): Configured[CatsServiceContext, Cat] = Configured {ctx =>
-    ctx.catsRepo.getByName(name)
-  }
+class CatsService extends DI[CatsServiceContext, Context] {
+  def getByName(name: String): Configured[Cat] = for {
+    ctx <- context
+    cat = ctx.catsRepo.getByName(name)
+  } yield cat
 
-  def countByColor(color: String): Configured[CatsServiceContext, Int] = Configured {ctx =>
-    ctx.catsRepo.getAllByColor(color).size
-  }
+  def countByColor(color: String): Configured[Int] = for {
+    ctx <- context
+    count = ctx.catsRepo.getAllByColor(color).size
+  } yield count
 }
 
 trait CatsServiceContext {
   val catsRepo: CatsRepository
-}
-
-object CatsServiceContext {
-  val catsRepo: Configured[CatsServiceContext, CatsRepository] = Configured {_.catsRepo}
 }

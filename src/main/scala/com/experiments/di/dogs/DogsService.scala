@@ -1,21 +1,20 @@
 package com.experiments.di.dogs
 
 import com.experiments.di._
+import com.experiments.di.Context
 
-class DogsService {
-  def getByName(name: String): Configured[DogsServiceContext, Dog] = Configured {ctx =>
-    ctx.dogsRepo.getByName(name)
-  }
+class DogsService extends DI[DogsServiceContext, Context] {
+  def getByName(name: String): Configured[Dog] = for {
+    ctx <- context
+    dog = ctx.dogsRepo.getByName(name)
+  } yield dog
 
-  def countByColor(color: String): Configured[DogsServiceContext, Int] = Configured {ctx =>
-    ctx.dogsRepo.getAllByColor(color).size
-  }
+  def countByColor(color: String): Configured[Int] = for {
+    ctx <- context
+    count = ctx.dogsRepo.getAllByColor(color).size
+  } yield count
 }
 
 trait DogsServiceContext {
   val dogsRepo: DogsRepository
-}
-
-object DogsServiceContext {
-  val dogsRepo: Configured[DogsServiceContext, DogsRepository] = Configured {_.dogsRepo}
 }
