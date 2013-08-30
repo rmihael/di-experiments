@@ -4,7 +4,6 @@ import com.experiments.di.cats._
 import com.experiments.di.dogs._
 
 object CrazyOldLadyHouseService extends DI[CrazyOldLadyHouseServiceContext, Context] {
-
   def getCat(name: String): Configured[Cat] = for {
     ctx <- context
     c <- ctx.catsService.getByName(name)
